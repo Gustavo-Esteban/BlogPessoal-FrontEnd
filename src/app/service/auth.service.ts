@@ -18,12 +18,16 @@ export class AuthService {
     return this.http.post<UserLogin>('http://localhost:8080/usuarios/logar', userLogin)
   }
 
-  cadastrar(user: User): Observable<User>{  
+  cadastrar(user: User): Observable<User>{
     return this.http.post<User>('http://localhost:8080/usuarios/cadastrar', user)
   }
 
+  getByIdUser(id: number): Observable<User>{
+    return this.http.get<User>(`http://localhost:8080/usuarios/${id}`, {headers:{'Authorization': environment.token}})
+  }
+
   logado(){
-    let ok: boolean = false 
+    let ok: boolean = false
 
     if (environment.token != ''){
       ok = true
