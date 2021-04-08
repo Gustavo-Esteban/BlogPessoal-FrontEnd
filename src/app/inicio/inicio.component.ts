@@ -1,3 +1,4 @@
+import { AlertasService } from './../service/alertas.service';
 import { AuthService } from './../service/auth.service';
 import { TemaService } from './../service/tema.service';
 import { PostagemService } from './../service/postagem.service';
@@ -29,14 +30,15 @@ export class InicioComponent implements OnInit {
     private router: Router,
     private PostagemService: PostagemService,
     private TemaService: TemaService,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertas: AlertasService
   ) { }
 
   ngOnInit() {
     window.scroll(0,0)
 
     if(environment.token == ''){
-      alert('Sua seção expirou, faça login novamente.')
+      this.alertas.showAlertInfo('Sua seção expirou, faça login novamente.')
       this.router.navigate(['/entrar'])
     }
 
@@ -78,7 +80,7 @@ export class InicioComponent implements OnInit {
 
     this.PostagemService.postPostagem(this.postagem).subscribe((resp: Postagem) =>{
       this.postagem = resp
-      alert('Postagem realizada com sucesso!')
+      this.alertas.showAlertSuccess('Postagem realizada com sucesso!')
       this.postagem = new Postagem()
       this.getAllPostagens()
     })
